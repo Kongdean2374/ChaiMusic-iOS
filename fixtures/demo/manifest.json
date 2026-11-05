@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "chaimusic-original-demo",
+  "name": "ChaiMusic 原創驗證來源",
+  "authorization": "本音訊與歌詞由 ChaiMusic 專案自行合成創作，以 CC0-1.0 提供測試使用。",
+  "health": "health.json",
+  "catalog": "catalog.json",
+  "search": "search.json",
+  "stream": "stream/{id}.json",
+  "lyrics": "lyrics/{recordingID}.json",
+  "candidates": "candidates/{recordingID}.json"
+}

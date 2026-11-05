@@ -2,7 +2,14 @@ import Foundation
 
 struct QueueEngine {
     var state: QueueState
-    init(state: QueueState = QueueState()) { self.state = state }
+    init(state: QueueState = QueueState()) {
+        self.state = state
+        // 讀取持久狀態時只修正無效值，不重洗或截短完整排列。
+        var seen = Set<UUID>()
+        self.state.sourceIDs = state.sourceIDs.filter { seen.insert($0).inserted }
+        self.state.index = max(-1, min(state.index, state.order.count))
+        if !self.state.progress.isFinite || self.state.progress < 0 { self.state.progress = 0 }
+    }
 
     var upcomingIDs: [UUID] {
         state.pending + Array(state.order.dropFirst(max(0, state.index + 1)))

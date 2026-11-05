@@ -11,6 +11,7 @@
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>1.0.0</string>
     <key>CFBundleVersion</key><string>1</string>
+    <key>NSLocalNetworkUsageDescription</key><string>連線您設定的私人 WebDAV 或 NAS 音樂來源，以瀏覽及播放有權使用的音訊。</string>
     <key>LSRequiresIPhoneOS</key><true/>
     <key>UIApplicationSupportsIndirectInputEvents</key><true/>
     <key>UILaunchScreen</key><dict/>

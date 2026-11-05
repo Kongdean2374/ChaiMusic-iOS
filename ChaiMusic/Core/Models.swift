@@ -22,6 +22,9 @@ struct LyricLine: Codable, Identifiable, Equatable {
 struct Lyrics: Codable, Equatable {
     var lines: [LyricLine] = []; var offset: Double = 0
     var language = "未知"; var source = "使用者匯入"; var version = 1
+    var staticText: String? = nil
+    var staticTranslation: String? = nil
+    var recordingID: String? = nil
     var confidence: String = "使用者提供，未核對錄音版本"
     func activeIndex(at time: Double) -> Int? { lines.lastIndex { $0.time <= time - offset } }
 }
@@ -30,6 +33,8 @@ struct Track: Codable, Identifiable, Equatable {
     var fileName: String; var artworkName: String? = nil; var duration: Double = 0
     var quality = AudioQuality(); var isFavorite = false; var importedAt = Date()
     var lyrics: Lyrics? = nil
+    var variants: [SourceVariant]? = nil
+    var recordingID: String? = nil
 }
 struct Playlist: Codable, Identifiable, Equatable {
     var id = UUID(); var name: String; var trackIDs: [UUID] = []

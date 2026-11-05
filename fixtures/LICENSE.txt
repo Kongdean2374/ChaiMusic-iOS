@@ -1,0 +1,10 @@
+ChaiMusic 原創驗證素材
+
+本資料夾音訊由 scripts/generate_fixtures.py 使用數學振盪器合成，
+歌詞為本專案撰寫的測試句子，不取自任何商業歌曲、錄音或歌詞。
+
+專案作者在法律允許範圍內，將這些驗證音訊與測試歌詞以
+Creative Commons CC0 1.0 Universal 公眾領域貢獻宣告提供。
+https://creativecommons.org/publicdomain/zero/1.0/
+
+此宣告只適用 fixtures 中的合成音訊與測試歌詞，不改變其他專案檔案授權。

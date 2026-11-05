@@ -65,13 +65,15 @@ def generate():
         obj("build:" + source, f"isa = PBXBuildFile; fileRef = {uid('file:' + source)};")
     obj("assets", 'isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ChaiMusic/Resources/Assets.xcassets"; sourceTree = SOURCE_ROOT;')
     obj("assets-build", f"isa = PBXBuildFile; fileRef = {uid('assets')};")
+    obj("privacy", 'isa = PBXFileReference; lastKnownFileType = text.xml; path = "ChaiMusic/Resources/PrivacyInfo.xcprivacy"; sourceTree = SOURCE_ROOT;')
+    obj("privacy-build", f"isa = PBXBuildFile; fileRef = {uid('privacy')};")
     obj("plist", 'isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ChaiMusic/Resources/Info.plist"; sourceTree = SOURCE_ROOT;')
     obj("product", 'isa = PBXFileReference; explicitFileType = wrapper.application; path = ChaiMusic.app; sourceTree = BUILT_PRODUCTS_DIR;')
-    children = [uid("file:" + p) for p in sources] + [uid("assets"), uid("plist"), uid("products")]
+    children = [uid("file:" + p) for p in sources] + [uid("assets"), uid("privacy"), uid("plist"), uid("products")]
     obj("group", f"isa = PBXGroup; children = ({','.join(children)}); sourceTree = \"<group>\";")
     obj("products", f"isa = PBXGroup; children = ({uid('product')}); name = Products; sourceTree = \"<group>\";")
     obj("sources", f"isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = ({','.join(uid('build:' + p) for p in sources)}); runOnlyForDeploymentPostprocessing = 0;")
-    obj("resources", f"isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ({uid('assets-build')}); runOnlyForDeploymentPostprocessing = 0;")
+    obj("resources", f"isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ({uid('assets-build')},{uid('privacy-build')}); runOnlyForDeploymentPostprocessing = 0;")
     obj("frameworks", "isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;")
     obj("target", f'isa = PBXNativeTarget; buildConfigurationList = {uid("target-configs")}; buildPhases = ({uid("sources")},{uid("frameworks")},{uid("resources")}); buildRules = (); dependencies = (); name = ChaiMusic; productName = ChaiMusic; productReference = {uid("product")}; productType = "com.apple.product-type.application";')
     for scope in ["project", "target"]:
@@ -81,7 +83,7 @@ def generate():
                 "CLANG_ENABLE_MODULES": "YES", "SWIFT_STRICT_CONCURRENCY": "targeted",
             }
             if scope == "target":
-                settings.update({"PRODUCT_NAME": "ChaiMusic", "PRODUCT_BUNDLE_IDENTIFIER": "app.chai.music", "INFOPLIST_FILE": "ChaiMusic/Resources/Info.plist", "GENERATE_INFOPLIST_FILE": "NO", "TARGETED_DEVICE_FAMILY": "1", "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator", "SUPPORTS_MACCATALYST": "NO", "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon", "LD_RUNPATH_SEARCH_PATHS": "$(inherited) @executable_path/Frameworks", "CODE_SIGN_STYLE": "Automatic", "SWIFT_EMIT_LOC_STRINGS": "YES"})
+                settings.update({"PRODUCT_NAME": "ChaiMusic", "PRODUCT_BUNDLE_IDENTIFIER": "app.chai.music", "INFOPLIST_FILE": "ChaiMusic/Resources/Info.plist", "GENERATE_INFOPLIST_FILE": "NO", "TARGETED_DEVICE_FAMILY": "1", "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator", "SUPPORTS_MACCATALYST": "NO", "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon", "LD_RUNPATH_SEARCH_PATHS": "$(inherited) @executable_path/Frameworks", "CODE_SIGN_STYLE": "Automatic", "SWIFT_EMIT_LOC_STRINGS": "YES", "OTHER_LDFLAGS": "$(inherited) -lsqlite3", "CODE_SIGNING_ALLOWED": "NO", "CODE_SIGNING_REQUIRED": "NO"})
             settings.update({"SWIFT_OPTIMIZATION_LEVEL": "-Onone" if config == "Debug" else "-O", "DEBUG_INFORMATION_FORMAT": "dwarf" if config == "Debug" else "dwarf-with-dsym"})
             obj(f"{scope}-{config}", f"isa = XCBuildConfiguration; buildSettings = {{ {' '.join(k + ' = ' + quote(v) + ';' for k, v in settings.items())} }}; name = {config};")
         obj(scope + "-configs", f"isa = XCConfigurationList; buildConfigurations = ({uid(scope+'-Debug')},{uid(scope+'-Release')}); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;")

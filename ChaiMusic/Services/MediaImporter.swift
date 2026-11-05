@@ -24,6 +24,7 @@ actor MediaImporter {
             return result
         }
         for url in urls {
+            if Task.isCancelled { result.failures.append("匯入已取消，已完成的歌曲會保留。"); break }
             let scoped = url.startAccessingSecurityScopedResource()
             defer { if scoped { url.stopAccessingSecurityScopedResource() } }
             let id = UUID()
@@ -35,6 +36,8 @@ actor MediaImporter {
             let fileName = "\(id.uuidString).\(ext)"
             let destination = audio.appendingPathComponent(fileName)
             do {
+                let resource = try url.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+                guard resource.isRegularFile == true, (resource.fileSize ?? 0) <= 4 * 1024 * 1024 * 1024 else { throw ImportError.unplayable }
                 try fm.copyItem(at: url, to: destination)
                 let asset = AVURLAsset(url: destination)
                 let playable = try await asset.load(.isPlayable)
@@ -80,6 +83,7 @@ actor MediaImporter {
                 result.tracks.append(track)
             } catch {
                 try? fm.removeItem(at: destination)
+                try? fm.removeItem(at: artwork.appendingPathComponent("\(id.uuidString).image"))
                 result.failures.append("\(url.lastPathComponent)：匯入失敗，請確認檔案可讀、格式受系統支援且沒有 DRM 保護。")
             }
         }

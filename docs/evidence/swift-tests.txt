@@ -1,0 +1,205 @@
+Building for debugging...
+[0/13] Write sources
+[2/13] Write swift-version-24593BA9C3E375BF.txt
+[4/18] Emitting module ChaiMusicCore
+[5/18] Compiling ChaiMusicCore LRCParser.swift
+[6/18] Compiling ChaiMusicCore ListeningMath.swift
+[7/18] Compiling ChaiMusicCore Models.swift
+[8/18] Compiling ChaiMusicCore PluginManifest.swift
+[9/22] Compiling ChaiMusicCore QueueEngine.swift
+/project/ChaiMusic/Services/BackupService.swift:61:29: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 59 |         }
+ 60 |         let output = FileManager.default.temporaryDirectory.appendingPathComponent("ChaiMusic-\(UUID().uuidString).chaimusic")
+ 61 |         FileManager.default.createFile(atPath: output.path, contents: nil)
+    |                             `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 62 |         let writer = try FileHandle(forWritingTo: output)
+ 63 |         do {
+
+/project/ChaiMusic/Services/BackupService.swift:123:16: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+121 |             let file = staging.appendingPathComponent(entry.path)
+122 |             try fm.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+123 |             fm.createFile(atPath: file.path, contents: nil)
+    |                `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+124 |             let writer = try FileHandle(forWritingTo: file)
+125 |             var remaining = entry.size
+[10/22] Compiling ChaiMusicCore SourceModels.swift
+/project/ChaiMusic/Services/BackupService.swift:61:29: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 59 |         }
+ 60 |         let output = FileManager.default.temporaryDirectory.appendingPathComponent("ChaiMusic-\(UUID().uuidString).chaimusic")
+ 61 |         FileManager.default.createFile(atPath: output.path, contents: nil)
+    |                             `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 62 |         let writer = try FileHandle(forWritingTo: output)
+ 63 |         do {
+
+/project/ChaiMusic/Services/BackupService.swift:123:16: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+121 |             let file = staging.appendingPathComponent(entry.path)
+122 |             try fm.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+123 |             fm.createFile(atPath: file.path, contents: nil)
+    |                `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+124 |             let writer = try FileHandle(forWritingTo: file)
+125 |             var remaining = entry.size
+[11/22] Compiling ChaiMusicCore BackupService.swift
+/project/ChaiMusic/Services/BackupService.swift:61:29: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 59 |         }
+ 60 |         let output = FileManager.default.temporaryDirectory.appendingPathComponent("ChaiMusic-\(UUID().uuidString).chaimusic")
+ 61 |         FileManager.default.createFile(atPath: output.path, contents: nil)
+    |                             `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 62 |         let writer = try FileHandle(forWritingTo: output)
+ 63 |         do {
+
+/project/ChaiMusic/Services/BackupService.swift:123:16: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+121 |             let file = staging.appendingPathComponent(entry.path)
+122 |             try fm.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+123 |             fm.createFile(atPath: file.path, contents: nil)
+    |                `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+124 |             let writer = try FileHandle(forWritingTo: file)
+125 |             var remaining = entry.size
+[12/22] Compiling ChaiMusicCore LibraryDatabase.swift
+/project/ChaiMusic/Services/BackupService.swift:61:29: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 59 |         }
+ 60 |         let output = FileManager.default.temporaryDirectory.appendingPathComponent("ChaiMusic-\(UUID().uuidString).chaimusic")
+ 61 |         FileManager.default.createFile(atPath: output.path, contents: nil)
+    |                             `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+ 62 |         let writer = try FileHandle(forWritingTo: output)
+ 63 |         do {
+
+/project/ChaiMusic/Services/BackupService.swift:123:16: warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+121 |             let file = staging.appendingPathComponent(entry.path)
+122 |             try fm.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+123 |             fm.createFile(atPath: file.path, contents: nil)
+    |                `- warning: result of call to 'createFile(atPath:contents:attributes:)' is unused
+124 |             let writer = try FileHandle(forWritingTo: file)
+125 |             var remaining = entry.size
+[13/23] Wrapping AST for ChaiMusicCore for debugging
+[15/27] Emitting module ChaiMusicCoreTests
+[16/29] Compiling ChaiMusicCoreTests QueueEngineTests.swift
+[17/29] Compiling ChaiMusicCoreTests SourceContractIntegrationTests.swift
+[18/29] Compiling ChaiMusicCoreTests DatabaseTests.swift
+[19/29] Compiling ChaiMusicCoreTests LRCParserTests.swift
+[20/29] Compiling ChaiMusicCoreTests ListeningMathTests.swift
+[21/30] /project/.build/x86_64-unknown-linux-gnu/debug/ChaiMusicCorePackageDiscoveredTests.derived/all-discovered-tests.swift
+[22/30] Write sources
+[23/30] Wrapping AST for ChaiMusicCoreTests for debugging
+[25/32] Compiling ChaiMusicCorePackageDiscoveredTests ChaiMusicCoreTests.swift
+[26/32] Emitting module ChaiMusicCorePackageDiscoveredTests
+[27/33] Compiling ChaiMusicCorePackageDiscoveredTests all-discovered-tests.swift
+[28/34] /project/.build/x86_64-unknown-linux-gnu/debug/ChaiMusicCorePackageTests.derived/runner.swift
+[29/34] Write sources
+[30/34] Wrapping AST for ChaiMusicCorePackageDiscoveredTests for debugging
+[32/36] Compiling ChaiMusicCorePackageTests runner.swift
+[33/36] Emitting module ChaiMusicCorePackageTests
+[34/37] Wrapping AST for ChaiMusicCorePackageTests for debugging
+[35/37] Write Objects.LinkFileList
+[36/37] Linking ChaiMusicCorePackageTests.xctest
+Build complete! (10.89s)
+Test Suite 'All tests' started at 2026-11-05 03:39:03.839
+Test Suite 'debug.xctest' started at 2026-11-05 03:39:03.841
+Test Suite 'DatabaseTests' started at 2026-11-05 03:39:03.841
+Test Case 'DatabaseTests.testBackupRejectsTraversalFilename' started at 2026-11-05 03:39:03.841
+Test Case 'DatabaseTests.testBackupRejectsTraversalFilename' passed (0.002 seconds)
+Test Case 'DatabaseTests.testBackupRoundTripIncludesAudioArtworkAndAlternateAndRemovesURLSecrets' started at 2026-11-05 03:39:03.843
+Test Case 'DatabaseTests.testBackupRoundTripIncludesAudioArtworkAndAlternateAndRemovesURLSecrets' passed (0.008 seconds)
+Test Case 'DatabaseTests.testCoalescedUpdatesKeepLatestSecondsAndQueue' started at 2026-11-05 03:39:03.850
+Test Case 'DatabaseTests.testCoalescedUpdatesKeepLatestSecondsAndQueue' passed (0.006 seconds)
+Test Case 'DatabaseTests.testCorruptArchiveDoesNotInstallAnyFiles' started at 2026-11-05 03:39:03.856
+Test Case 'DatabaseTests.testCorruptArchiveDoesNotInstallAnyFiles' passed (0.002 seconds)
+Test Case 'DatabaseTests.testLegacyJSONMigrationPreservesOriginalAndMetadata' started at 2026-11-05 03:39:03.859
+Test Case 'DatabaseTests.testLegacyJSONMigrationPreservesOriginalAndMetadata' passed (0.008 seconds)
+Test Case 'DatabaseTests.testSQLitePersistsThousandTracksAndWholeQueueAcrossReopen' started at 2026-11-05 03:39:03.866
+Test Case 'DatabaseTests.testSQLitePersistsThousandTracksAndWholeQueueAcrossReopen' passed (0.053 seconds)
+Test Case 'DatabaseTests.testTransactionRemovesDeletedRowsAndPreservesPlaylistOrdering' started at 2026-11-05 03:39:03.919
+Test Case 'DatabaseTests.testTransactionRemovesDeletedRowsAndPreservesPlaylistOrdering' passed (0.007 seconds)
+Test Suite 'DatabaseTests' passed at 2026-11-05 03:39:03.926
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.085 (0.085) seconds
+Test Suite 'LRCParserTests' started at 2026-11-05 03:39:03.926
+Test Case 'LRCParserTests.testBasicTimestampsSortAndPreserveUnicode' started at 2026-11-05 03:39:03.926
+Test Case 'LRCParserTests.testBasicTimestampsSortAndPreserveUnicode' passed (0.003 seconds)
+Test Case 'LRCParserTests.testEnhancedWordTimingAndNegativeOffset' started at 2026-11-05 03:39:03.929
+Test Case 'LRCParserTests.testEnhancedWordTimingAndNegativeOffset' passed (0.0 seconds)
+Test Case 'LRCParserTests.testMalformedLinesDoNotInventTimedLyrics' started at 2026-11-05 03:39:03.929
+Test Case 'LRCParserTests.testMalformedLinesDoNotInventTimedLyrics' passed (0.0 seconds)
+Test Case 'LRCParserTests.testMultipleTimestampsRepeatText' started at 2026-11-05 03:39:03.930
+Test Case 'LRCParserTests.testMultipleTimestampsRepeatText' passed (0.0 seconds)
+Test Case 'LRCParserTests.testOffsetUsesSecondsAndActiveLineBoundary' started at 2026-11-05 03:39:03.930
+Test Case 'LRCParserTests.testOffsetUsesSecondsAndActiveLineBoundary' passed (0.0 seconds)
+Test Suite 'LRCParserTests' passed at 2026-11-05 03:39:03.930
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
+Test Suite 'ListeningMathTests' started at 2026-11-05 03:39:03.930
+Test Case 'ListeningMathTests.testCalendarDaySplitHandlesDaylightSaving' started at 2026-11-05 03:39:03.930
+Test Case 'ListeningMathTests.testCalendarDaySplitHandlesDaylightSaving' passed (0.001 seconds)
+Test Case 'ListeningMathTests.testCrossMidnightIsAllocatedToBothDaysWithoutDuplicatingTime' started at 2026-11-05 03:39:03.931
+Test Case 'ListeningMathTests.testCrossMidnightIsAllocatedToBothDaysWithoutDuplicatingTime' passed (0.001 seconds)
+Test Case 'ListeningMathTests.testInvalidTimeDoesNotCreateHistory' started at 2026-11-05 03:39:03.931
+Test Case 'ListeningMathTests.testInvalidTimeDoesNotCreateHistory' passed (0.0 seconds)
+Test Case 'ListeningMathTests.testSeekPauseStallAndClockJumpsDoNotInflateSeconds' started at 2026-11-05 03:39:03.932
+Test Case 'ListeningMathTests.testSeekPauseStallAndClockJumpsDoNotInflateSeconds' passed (0.0 seconds)
+Test Suite 'ListeningMathTests' passed at 2026-11-05 03:39:03.932
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'LyricsV2Tests' started at 2026-11-05 03:39:03.932
+Test Case 'LyricsV2Tests.testHoursAndMalformedSeconds' started at 2026-11-05 03:39:03.932
+Test Case 'LyricsV2Tests.testHoursAndMalformedSeconds' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testInvalidWordOrderFallsBackToLine' started at 2026-11-05 03:39:03.932
+Test Case 'LyricsV2Tests.testInvalidWordOrderFallsBackToLine' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testOffsetAndSeekKeepOriginalWordTimeline' started at 2026-11-05 03:39:03.932
+Test Case 'LyricsV2Tests.testOffsetAndSeekKeepOriginalWordTimeline' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testPlainTranslationRequiresExactLineCount' started at 2026-11-05 03:39:03.932
+Test Case 'LyricsV2Tests.testPlainTranslationRequiresExactLineCount' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testRecordingIdentityRejectsSimilarTitleAndPrefersWords' started at 2026-11-05 03:39:03.933
+Test Case 'LyricsV2Tests.testRecordingIdentityRejectsSimilarTitleAndPrefersWords' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testRepeatedEnhancedLyricsShiftAllWordTimestamps' started at 2026-11-05 03:39:03.933
+Test Case 'LyricsV2Tests.testRepeatedEnhancedLyricsShiftAllWordTimestamps' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testStaticTextDoesNotInventTimestamps' started at 2026-11-05 03:39:03.934
+Test Case 'LyricsV2Tests.testStaticTextDoesNotInventTimestamps' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testStaticTranslationAndBlankTimedBreak' started at 2026-11-05 03:39:03.934
+Test Case 'LyricsV2Tests.testStaticTranslationAndBlankTimedBreak' passed (0.0 seconds)
+Test Case 'LyricsV2Tests.testTimestampTranslationMatchesEffectiveTimeline' started at 2026-11-05 03:39:03.934
+Test Case 'LyricsV2Tests.testTimestampTranslationMatchesEffectiveTimeline' passed (0.0 seconds)
+Test Suite 'LyricsV2Tests' passed at 2026-11-05 03:39:03.935
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'QueueEngineTests' started at 2026-11-05 03:39:03.935
+Test Case 'QueueEngineTests.test531SongShufflePlaysEverySongExactlyOnce' started at 2026-11-05 03:39:03.935
+Test Case 'QueueEngineTests.test531SongShufflePlaysEverySongExactlyOnce' passed (0.002 seconds)
+Test Case 'QueueEngineTests.testCrossPlaylistStartResetsHistoryAndManualQueue' started at 2026-11-05 03:39:03.936
+Test Case 'QueueEngineTests.testCrossPlaylistStartResetsHistoryAndManualQueue' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testDeletedCurrentPendingAndHistoryAreRemoved' started at 2026-11-05 03:39:03.936
+Test Case 'QueueEngineTests.testDeletedCurrentPendingAndHistoryAreRemoved' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testDeletionWhileManualInsertIsPlayingPreservesBaseCursor' started at 2026-11-05 03:39:03.937
+Test Case 'QueueEngineTests.testDeletionWhileManualInsertIsPlayingPreservesBaseCursor' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testEmptyInputDuplicatesAndExplicitStart' started at 2026-11-05 03:39:03.937
+Test Case 'QueueEngineTests.testEmptyInputDuplicatesAndExplicitStart' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testEverySupportedSizeRestoresExactRoundAtManyPositions' started at 2026-11-05 03:39:03.937
+Test Case 'QueueEngineTests.testEverySupportedSizeRestoresExactRoundAtManyPositions' passed (0.351 seconds)
+Test Case 'QueueEngineTests.testFullRepeatConsumesAll531BeforeStartingNextRound' started at 2026-11-05 03:39:04.288
+Test Case 'QueueEngineTests.testFullRepeatConsumesAll531BeforeStartingNextRound' passed (0.002 seconds)
+Test Case 'QueueEngineTests.testInsertNextAndPreviousPreserveContinuation' started at 2026-11-05 03:39:04.290
+Test Case 'QueueEngineTests.testInsertNextAndPreviousPreserveContinuation' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testQueueHasNo25Or50SongPageBoundary' started at 2026-11-05 03:39:04.291
+Test Case 'QueueEngineTests.testQueueHasNo25Or50SongPageBoundary' passed (0.003 seconds)
+Test Case 'QueueEngineTests.testRepeatAllWrapsAndRepeatOffEnds' started at 2026-11-05 03:39:04.294
+Test Case 'QueueEngineTests.testRepeatAllWrapsAndRepeatOffEnds' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testRepeatOneOnlyRepeatsOnAutomaticAdvance' started at 2026-11-05 03:39:04.294
+Test Case 'QueueEngineTests.testRepeatOneOnlyRepeatsOnAutomaticAdvance' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testRestoringMalformedCursorDoesNotTrap' started at 2026-11-05 03:39:04.294
+Test Case 'QueueEngineTests.testRestoringMalformedCursorDoesNotTrap' passed (0.0 seconds)
+Test Case 'QueueEngineTests.testShuffleToggleKeepsCurrentAndAllRemainingSongs' started at 2026-11-05 03:39:04.294
+Test Case 'QueueEngineTests.testShuffleToggleKeepsCurrentAndAllRemainingSongs' passed (0.002 seconds)
+Test Case 'QueueEngineTests.testStateSurvivesAtomicSnapshotRoundTripAndResumesOrder' started at 2026-11-05 03:39:04.296
+Test Case 'QueueEngineTests.testStateSurvivesAtomicSnapshotRoundTripAndResumesOrder' passed (0.103 seconds)
+Test Case 'QueueEngineTests.testUpcomingRemovalAndMoveAffectPlayback' started at 2026-11-05 03:39:04.398
+Test Case 'QueueEngineTests.testUpcomingRemovalAndMoveAffectPlayback' passed (0.001 seconds)
+Test Suite 'QueueEngineTests' passed at 2026-11-05 03:39:04.399
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.464 (0.464) seconds
+Test Suite 'SourceContractIntegrationTests' started at 2026-11-05 03:39:04.399
+Test Case 'SourceContractIntegrationTests.testPublishedFixtureMatchesRealClientSchema' started at 2026-11-05 03:39:04.399
+Test Case 'SourceContractIntegrationTests.testPublishedFixtureMatchesRealClientSchema' passed (0.002 seconds)
+Test Case 'SourceContractIntegrationTests.testUnversionedOrUnlicensedManifestIsRejected' started at 2026-11-05 03:39:04.401
+Test Case 'SourceContractIntegrationTests.testUnversionedOrUnlicensedManifestIsRejected' passed (0.0 seconds)
+Test Suite 'SourceContractIntegrationTests' passed at 2026-11-05 03:39:04.402
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'debug.xctest' passed at 2026-11-05 03:39:04.402
+	 Executed 42 tests, with 0 failures (0 unexpected) in 0.56 (0.56) seconds
+Test Suite 'All tests' passed at 2026-11-05 03:39:04.402
+	 Executed 42 tests, with 0 failures (0 unexpected) in 0.56 (0.56) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.0.3 (18c42c19cac3faf)
+✔ Test run with 0 tests passed after 0.001 seconds.

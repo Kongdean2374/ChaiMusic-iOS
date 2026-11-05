@@ -1,28 +1,35 @@
-# 架構與設計
+# V2 架構與時間軸
 
 ```mermaid
 flowchart TD
-  UI[SwiftUI 畫面] --> Store[LibraryStore]
-  UI --> Player[PlayerController]
-  UI --> Importer[MediaImporter actor]
-  Importer --> Files[Application Support 音訊與封面]
-  Player --> AV[AVPlayer / AVAudioSession]
-  Player --> Queue[QueueEngine 完整 ID 集合]
-  Player --> Store
-  Store --> JSON[原子 library.json]
-  UI --> LRC[LRCParser]
-  LRC --> Store
-  Player --> Remote[鎖定畫面控制]
+  UI[SwiftUI / 封面縮圖快取 / 歌詞動畫] --> Store[LibraryStore 記憶體索引]
+  UI --> Sources[SourceManager]
+  UI --> Player[PlayerController 業務歌曲時間軸]
+  Store --> DB[背景序列 SQLite / WAL]
+  Store --> Backup[串流備份 / 還原 / V1遷移]
+  Sources --> DAV[HTTPS WebDAV]
+  Sources --> Plugin[有版本的 HTTPS 外掛]
+  Sources --> Keys[Keychain 同源認證]
+  Sources --> Cache[下載快取 / 真實音軌格式檢查]
+  Cache --> Player
+  Player --> A[AVPlayer A 持續播放]
+  Player --> Match[PCM三段比對 / 版本與長度檢查]
+  Match --> B[AVPlayer B 預備與時間對齊]
+  B --> Fade[短交叉淡入 / 可取消 / 失敗保留A]
+  Player --> Queue[完整 ID / 排列 / 游標 / 待播 / 歷史]
+  Player --> Listen[實際聆聽秒數 / 跨午夜分割]
+  Listen --> Store
+  Player --> Lyrics[單一時間軸歌詞 / 翻譯 / 偏移]
 ```
 
-UI、服務與純資料邏輯分開。核心模型只有 Foundation 依賴，可在 macOS 直接跑 Swift Package 測試。媒體匯入 actor 非同步讀取音訊軌與中繼資料，複製到應用程式自己控制的資料夾。畫面沒有假資料。
+SourceVariant 代表某錄音的一個來源，不把相同歌名視為相同錄音。manifest 的品質只供候選排序，顯示及升級判斷使用下載後 AVFoundation 可讀到的音軌資訊。未知格式欄位保留未知，estimatedDataRate 標記估計。
 
-QueueState 保存 sourceIDs 完整集合、order 本輪順序、index 已消耗游標、pending 手動插隊、history 已播歷史、currentID、進度、循環與歌單來源。Swift 標準庫均勻 shuffle 對完整去重 ID 集合操作。下一輪循環才重建 order；手動插隊視為使用者的額外指定播放，可以重複，與自動洗牌不重複保證區分。
+遠端來源完整下載到本機快取才進播放器。這讓私人認證、音檔解碼與雙版本比對可控，代價是初次點播大型音檔有等待時間；不宣稱大型遠端 FLAC 可瞬間起播。
 
-播放進度是唯一歌詞時間軸，偏移只改顯示時間；seek 不重設業務歌曲。聆聽秒數以播放器實際前進量限制於經過時間，停頓與跳轉不算聆聽。事件含來源歌單及 duration，用於完成比例；抵達尾端與完整聽完不是相同概念。
+來源 B 在 A 持續播放時下載、解碼三段探針並做互相關；時間差、相關性、錄音識別或時鐘不合格即拒絕。播放器用 generation 與取消狀態防止下一首、seek、停止、還原資料後舊候選回寫。切換更新底層音源，但不建立新業務歌曲或重設統計事件。
 
-資料庫採單一版本化 JSON 快照，以 atomic write 替換；讀取毀損或未知版本即禁止覆寫。每十秒及播放／佇列／生命週期變更保存。首版以數百至數千首為設計範圍，尚未做大型資料庫效能驗證。
+音量匹配只在 AVPlayer 可提供的衰減範圍內；這是有門檻的近連續切換，不是樣本級混音引擎、bit-perfect 輸出或母帶等價證明。完整解碼與真實雙播放器行為需要 Apple 平台驗證。
 
-視覺採深綠、茶金與低干擾暗色背景，封面與曲目資訊為重心。沒有外部授權素材時使用原創符號與漸層，不下載動態封面。採原生 NavigationStack、List、表單與無障礙文字。
+LibraryStore 發布記憶體快照與穩定 ID 索引，SQLite worker 合併短期寫入並在 transaction 更新異動列。備份還原先驗證、暫存，再替換索引；保留還原前資料庫。沒有把完整索引綁在 UI 分頁。
 
-MusicSourceProvider／StreamCandidate 保留來源與錄音對齊資訊。首版僅本機來源，QualityUpgradeState 只能表達未支援，不假裝已實作無縫升級。
+SwiftUI 視覺採茶金、深綠、封面色彩背景與原生可及性基礎。圖片以背景縮圖與快取供給畫面；減少動態效果與節電限制動畫。歌詞用播放時間驅動遮罩進度，滑動瀏覽可暫停跟隨。

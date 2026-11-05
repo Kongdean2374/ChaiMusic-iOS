@@ -21,7 +21,7 @@ final class QueueEngineTests: XCTestCase {
     }
 
     func testQueueHasNo25Or50SongPageBoundary() {
-        for count in [24, 25, 26, 49, 50, 51, 531] {
+        for count in [24, 25, 26, 49, 50, 51, 100, 531, 1_000] {
             let songs = ids(count)
             var engine = QueueEngine()
             engine.start(ids: songs)
@@ -150,4 +150,91 @@ final class QueueEngineTests: XCTestCase {
         XCTAssertEqual(engine.state.currentID, songs[1])
         XCTAssertEqual(Set(engine.state.order), Set(songs))
     }
+    func testEverySupportedSizeRestoresExactRoundAtManyPositions() throws {
+        for count in [25, 50, 100, 531, 1_000] {
+            let songs = ids(count)
+            var engine = QueueEngine()
+            engine.start(ids: songs, shuffle: true)
+            let initialOrder = engine.state.order
+            var played: [UUID] = []
+            for position in 0..<count {
+                if position % 23 == 0 {
+                    engine.state.progress = 19.25
+                    let data = try JSONEncoder().encode(engine.state)
+                    engine = QueueEngine(state: try JSONDecoder().decode(QueueState.self, from: data))
+                    XCTAssertEqual(engine.state.order, initialOrder)
+                    XCTAssertEqual(engine.state.progress, 19.25)
+                    XCTAssertEqual(engine.state.index, position)
+                }
+                played.append(try XCTUnwrap(engine.state.currentID))
+                _ = engine.advance(automatic: true)
+            }
+            XCTAssertEqual(played, initialOrder)
+            XCTAssertEqual(Set(played).count, count)
+            XCTAssertEqual(engine.state.history, initialOrder)
+            XCTAssertNil(engine.state.currentID)
+        }
+    }
+
+    func testFullRepeatConsumesAll531BeforeStartingNextRound() {
+        let songs = ids(531)
+        var engine = QueueEngine()
+        engine.start(ids: songs, shuffle: true)
+        engine.state.repeatMode = .all
+        for _ in 0..<2 {
+            var seen = Set<UUID>()
+            for _ in songs {
+                guard let current = engine.state.currentID else { XCTFail("過早結束完整佇列"); return }
+                XCTAssertTrue(seen.insert(current).inserted)
+                _ = engine.advance(automatic: true)
+            }
+            XCTAssertEqual(seen, Set(songs))
+        }
+    }
+
+    func testDeletionWhileManualInsertIsPlayingPreservesBaseCursor() {
+        let songs = ids(6)
+        var engine = QueueEngine()
+        engine.start(ids: Array(songs.prefix(4)))
+        engine.insertNext(songs[4])
+        engine.insertNext(songs[5])
+        XCTAssertEqual(engine.advance(), songs[5])
+        engine.reconcile(validIDs: Set([songs[0], songs[1], songs[3], songs[4]]))
+        XCTAssertEqual(engine.state.currentID, songs[4])
+        XCTAssertEqual(engine.advance(), songs[1])
+        XCTAssertEqual(engine.advance(), songs[3])
+        XCTAssertNil(engine.advance())
+        XCTAssertEqual(engine.state.sourceIDs, [songs[0], songs[1], songs[3]])
+    }
+
+    func testCrossPlaylistStartResetsHistoryAndManualQueue() {
+        let songs = ids(10)
+        var engine = QueueEngine()
+        engine.start(ids: Array(songs.prefix(5)), playlistID: UUID())
+        _ = engine.advance()
+        engine.insertNext(songs[9])
+        let nextPlaylist = UUID()
+        engine.start(ids: Array(songs.suffix(5)), shuffle: true, playlistID: nextPlaylist)
+        XCTAssertTrue(engine.state.pending.isEmpty)
+        XCTAssertTrue(engine.state.history.isEmpty)
+        XCTAssertEqual(engine.state.playlistID, nextPlaylist)
+        XCTAssertEqual(Set(engine.state.sourceIDs), Set(songs.suffix(5)))
+        XCTAssertEqual(engine.state.progress, 0)
+    }
+
+    func testRestoringMalformedCursorDoesNotTrap() {
+        let songs = ids(3)
+        var state = QueueState()
+        state.sourceIDs = songs + songs
+        state.order = songs
+        state.index = Int.max
+        state.progress = .infinity
+        var engine = QueueEngine(state: state)
+        XCTAssertEqual(engine.state.sourceIDs, songs)
+        XCTAssertEqual(engine.state.progress, 0)
+        XCTAssertTrue(engine.upcomingIDs.isEmpty)
+        engine.reconcile(validIDs: Set(songs))
+        XCTAssertNil(engine.advance())
+    }
+
 }

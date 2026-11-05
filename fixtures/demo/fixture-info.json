@@ -1,0 +1,35 @@
+{
+  "recordingID": "chaimusic-original-fixture-2026-v2",
+  "license": "CC0-1.0",
+  "duration": 12,
+  "files": {
+    "different.wav": {
+      "sha256": "d036e859cc75d8c4bec1363a63b4a475bf474dbece03458f3ff659b6d5c9e731",
+      "bytes": 384044
+    },
+    "high.flac": {
+      "sha256": "912619cbf85f3c1f7184600eac815ebd7a62c77254d7e1dbc55dca34fa346b41",
+      "bytes": 115578
+    },
+    "low.m4a": {
+      "sha256": "01c6402d54a906a064dcad221b3ac9816d56e3751361e6a939c1545d8d9fbccd",
+      "bytes": 50228
+    },
+    "lyrics.lrc": {
+      "sha256": "70eca8d857825fb9d5756f848f33c4c0d7030a467f553a2974393f172940e3d5",
+      "bytes": 270
+    },
+    "original.wav": {
+      "sha256": "07e6f706f2c9ed8727f91c5214fddbd597b22572b2705a32a2279976514f03f2",
+      "bytes": 384044
+    },
+    "translation.lrc": {
+      "sha256": "d322a1f2b4c61274de2e24e45a7072df70d0094ef3cb64719a2d764e740d2c95",
+      "bytes": 158
+    },
+    "wrong.flac": {
+      "sha256": "ac3cb04ff793eec3f3c80981e4398a6053b0bba4a48b1dfad81ecd44cf19b012",
+      "bytes": 114954
+    }
+  }
+}
