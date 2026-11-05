@@ -1,0 +1,129 @@
+name: iOS 未簽署實機 IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-unsigned-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: 取得原始碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: 準備首次執行紀錄
+        run: |
+          mkdir -p build/logs
+          printf '尚未執行\n' > build/logs/generate-project.status
+          printf '尚未執行\n' > build/logs/swift-test.status
+          printf '尚未執行\n' > build/logs/fixture.status
+          printf '尚未執行\n' > build/logs/audio-integration.status
+          printf '尚未執行\n' > build/logs/xcodebuild.status
+          printf '尚未執行\n' > build/logs/package.status
+          xcodebuild -version > build/logs/toolchain.log 2>&1
+          swift --version >> build/logs/toolchain.log 2>&1
+
+      - name: 產生原生 Xcode 專案
+        run: |
+          set -o pipefail
+          set +e
+          python3 scripts/generate_project.py 2>&1 | tee build/logs/generate-project.log
+          first_status=${PIPESTATUS[0]}
+          printf '%s\n' "$first_status" > build/logs/generate-project.status
+          exit "$first_status"
+
+      - name: 準備合法原創驗證素材
+        run: |
+          set -o pipefail
+          set +e
+          (
+            set -euo pipefail
+            if ! command -v ffmpeg >/dev/null; then brew install ffmpeg; fi
+            python3 scripts/generate_fixtures.py --output build/fixtures --publish-demo build/fixture-site
+            python3 scripts/test_fixture_protocol.py build/fixture-site
+          ) 2>&1 | tee build/logs/fixture.log
+          first_status=${PIPESTATUS[0]}
+          printf '%s\n' "$first_status" > build/logs/fixture.status
+          exit "$first_status"
+
+      - name: 執行一次純核心測試
+        run: |
+          set -o pipefail
+          set +e
+          swift test 2>&1 | tee build/logs/swift-test.log
+          first_status=${PIPESTATUS[0]}
+          printf '%s\n' "$first_status" > build/logs/swift-test.status
+          exit "$first_status"
+
+      - name: 執行一次 macOS 解碼與聲學匹配驗證
+        run: |
+          set -o pipefail
+          set +e
+          bash scripts/run_audio_integration.sh 2>&1 | tee build/logs/audio-integration.log
+          first_status=${PIPESTATUS[0]}
+          printf '%s\n' "$first_status" > build/logs/audio-integration.status
+          exit "$first_status"
+
+      - name: 執行一次 Release 實機建置
+        run: |
+          set -o pipefail
+          set +e
+          xcodebuild -project ChaiMusic.xcodeproj -scheme ChaiMusic -configuration Release -destination 'generic/platform=iOS' -sdk iphoneos -derivedDataPath build/DerivedData -resultBundlePath build/Release.xcresult CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee build/logs/xcodebuild.log
+          first_status=${PIPESTATUS[0]}
+          printf '%s\n' "$first_status" > build/logs/xcodebuild.status
+          exit "$first_status"
+
+      - name: 驗證實機產物並封裝 IPA
+        id: package
+        run: |
+          set -o pipefail
+          set +e
+          python3 scripts/package_ipa.py build/DerivedData/Build/Products/Release-iphoneos/ChaiMusic.app build/ChaiMusic-unsigned.ipa 2>&1 | tee build/logs/package.log
+          first_status=${PIPESTATUS[0]}
+          printf '%s\n' "$first_status" > build/logs/package.status
+          exit "$first_status"
+
+      - name: 僅上傳已驗證的 IPA
+        if: success() && steps.package.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ChaiMusic-unsigned
+          path: build/ChaiMusic-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: 記錄本次結果
+        if: always()
+        run: |
+          {
+            printf '## ChaiMusic 首輪驗證\n\n'
+            printf 'Commit: `%s`\n\n' "$GITHUB_SHA"
+            printf '|階段|結束碼（0=成功）|\n|---|---|\n'
+            for report in build/logs/*.status; do
+              printf '|%s|%s|\n' "$(basename "$report" .status)" "$(cat "$report")"
+            done
+            printf '\nmacOS 邏輯／解碼測試不等於 iPhone 實機播放驗收。IPA 只在裝置平台與封裝驗證成功後上傳。\n'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 保存首次結果與診斷紀錄
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ChaiMusic-first-run-logs
+          path: |
+            build/logs/
+            build/Release.xcresult/
+          if-no-files-found: warn
+          retention-days: 14

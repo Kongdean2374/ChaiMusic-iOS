@@ -1,0 +1,65 @@
+{
+  "items": [
+    {
+      "id": "original",
+      "title": "茶間練習 · 原創升級測試",
+      "artist": "ChaiMusic 合成器",
+      "album": "合法驗證素材",
+      "duration": 12,
+      "recordingID": "chaimusic-original-fixture-2026-v2",
+      "variants": [
+        {
+          "id": "original-low",
+          "recordingID": "chaimusic-original-fixture-2026-v2",
+          "quality": {
+            "source": "ChaiMusic 原創驗證來源",
+            "container": "M4A",
+            "codec": "AAC",
+            "bitRate": 32000,
+            "sampleRate": 16000,
+            "bitDepth": null
+          },
+          "alignmentOffset": 0
+        },
+        {
+          "id": "original-high",
+          "recordingID": "chaimusic-original-fixture-2026-v2",
+          "quality": {
+            "source": "ChaiMusic 原創驗證來源",
+            "container": "FLAC",
+            "codec": "FLAC",
+            "bitRate": null,
+            "sampleRate": 16000,
+            "bitDepth": 16
+          },
+          "alignmentOffset": 0
+        }
+      ]
+    },
+    {
+      "id": "different",
+      "title": "另一段旋律 · 錯版拒絕測試",
+      "artist": "ChaiMusic 合成器",
+      "album": "合法驗證素材",
+      "duration": 12,
+      "recordingID": "chaimusic-different-fixture-2026-v2",
+      "variants": [
+        {
+          "id": "different",
+          "recordingID": "chaimusic-different-fixture-2026-v2",
+          "quality": {
+            "source": "ChaiMusic 原創驗證來源",
+            "container": "FLAC",
+            "codec": "FLAC",
+            "bitRate": null,
+            "sampleRate": 16000,
+            "bitDepth": 16
+          },
+          "alignmentOffset": 0
+        }
+      ]
+    }
+  ],
+  "complete": true,
+  "nextCursor": null
+}

@@ -1,0 +1,18 @@
+{
+  "recordingID": "chaimusic-different-fixture-2026-v2",
+  "variants": [
+    {
+      "id": "different",
+      "recordingID": "chaimusic-different-fixture-2026-v2",
+      "quality": {
+        "source": "ChaiMusic 原創驗證來源",
+        "container": "FLAC",
+        "codec": "FLAC",
+        "bitRate": null,
+        "sampleRate": 16000,
+        "bitDepth": 16
+      },
+      "alignmentOffset": 0
+    }
+  ]
+}

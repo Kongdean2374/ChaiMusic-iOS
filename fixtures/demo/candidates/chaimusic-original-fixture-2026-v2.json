@@ -1,0 +1,31 @@
+{
+  "recordingID": "chaimusic-original-fixture-2026-v2",
+  "variants": [
+    {
+      "id": "original-low",
+      "recordingID": "chaimusic-original-fixture-2026-v2",
+      "quality": {
+        "source": "ChaiMusic 原創驗證來源",
+        "container": "M4A",
+        "codec": "AAC",
+        "bitRate": 32000,
+        "sampleRate": 16000,
+        "bitDepth": null
+      },
+      "alignmentOffset": 0
+    },
+    {
+      "id": "original-high",
+      "recordingID": "chaimusic-original-fixture-2026-v2",
+      "quality": {
+        "source": "ChaiMusic 原創驗證來源",
+        "container": "FLAC",
+        "codec": "FLAC",
+        "bitRate": null,
+        "sampleRate": 16000,
+        "bitDepth": 16
+      },
+      "alignmentOffset": 0
+    }
+  ]
+}
